@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>market</title>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root"></div>
+
+    <style>
+      span {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    </style>
+    
+    <script type="text/babel">
+      const root = document.getElementById("root");
+      const App = () => {
+        // 일반변수와 state의 차이는?
+        // 데이터가 변경이 일어나면 재렌더링이 일어난다
+        let title = "책제목";
+        let [책제목, 책제목설정] = React.useState("쇼코의 미소");
+        let [출판사, 출판사설정] = React.useState("문학동네");
+        let [좋아요, 좋아요설정] = React.useState(0);
+
+        const add = (e) => {
+          좋아요설정(좋아요 + 1)
+        };
+
+        const minus = (e) => {
+          좋아요설정(좋아요 - 1 )
+        }
+
+        return (
+          <>
+            <div className="App">
+              <div className="list">
+                <h3>
+                  {/* 책제목, 출판사, 출판일, 좋아요 이모지 추가 */}
+                  {title}
+                  <span></span>
+                  {책제목}
+                  <span onClick={add}>👍</span>{좋아요}
+                  <span onClick={minus}>👎</span>
+                </h3>
+              </div>
+            </div>
+          </>
+        );
+      }
+      ReactDOM.createRoot(root).render(<App />);
+    </script>
+
+
+  </body>
+</html>

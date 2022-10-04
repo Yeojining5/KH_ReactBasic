@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>멀티Element생성하기</title>
+    <style>
+      .box {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root">
+      <h1>One</h1>
+      <h1>Two</h1>
+      <h1>Three</h1>
+    </div>
+    
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const element = (
+        <React.Fragment>
+          <h1>Java</h1><h2>React</h2><h3>Spring</h3>
+        </React.Fragment>
+      );
+      ReactDOM.createRoot(rootElement).render(element);
+    </script>
+
+
+
+  </body>
+</html>

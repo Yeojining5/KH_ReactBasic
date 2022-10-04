@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>market</title>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root"></div>
+
+    <style>
+      span {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    </style>
+    
+    <script type="text/babel">
+      const root = document.getElementById("root");
+      const App = () => {
+
+        const [books, setBooks] = React.useState([
+          "자바의 정석",
+          "리액트의 정석",
+          "오라클의 정석"
+        ]);
+
+        const [publishs, setPublishs] = React.useState([
+          "5월 11일 출판",
+          "6월 12일 출판",
+          "7월 13일 출판"
+        ]);
+
+        const add = () => {
+          setLike(like + 1)
+        };
+
+        const minus = () => {
+          setDislike(dislike + 1 )
+        }
+
+        const modify = () => {
+          if(book1) {
+            setBook1(book2)
+          } else {
+            setBook2(book1)
+          }
+          
+        }
+
+        return (
+          <>
+            <div className="App">
+
+              <div className="list">
+                <h3>{books[0]}</h3>
+                <p>5월11일 출판</p>
+              </div>
+
+              <div className="list">
+                <h3>{books[1]}</h3>
+                <p>6월12일 출판</p>
+              </div>
+
+              <div className="list">
+                <h3>{books[2]}</h3>
+                <p>7월13일 출판</p>
+              </div>
+
+            </div>
+          </>
+        );
+      }
+      ReactDOM.createRoot(root).render(<App />);
+    </script>
+
+
+  </body>
+</html>

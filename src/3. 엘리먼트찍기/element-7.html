@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>element찍어내기</title>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      // children이 먹히네 - 어 JSX이네
+      // dom-1의 index-6.html 참조하기
+      const Print = ({ title, description, children }) => {
+        return (
+          <>
+            <h1>{title}</h1>
+            <h3>{description}</h3>
+            {children}
+          </>
+        );
+      };
+      const Nice = () => <h3>Nice Day!</h3>;
+
+      const element = (
+        <>
+          <Print title="React" description="좋아요">
+            <Nice />
+            <Nice />
+            <Nice />
+          </Print>
+        </>
+      );
+      ReactDOM.createRoot(rootElement).render(element);
+    </script>
+
+
+  </body>
+</html>

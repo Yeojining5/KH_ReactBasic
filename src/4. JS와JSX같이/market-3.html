@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>market</title>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root"></div>
+
+    <style>
+      span {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    </style>
+    
+    <script type="text/babel">
+      const root = document.getElementById("root");
+      const App = () => {
+
+        let title = "책제목";
+        let [book1, setBook1] = React.useState("자바의 정석");
+        let [book2, setBook2] = React.useState("리액트의 정석");
+        let [book3, setBook3] = React.useState("오라클의 정석");
+        let [like, setLike] = React.useState(0);
+        let [dislike, setDislike] = React.useState(0);
+
+        
+        const add = () => {
+          setLike(like + 1)
+        };
+
+        const minus = () => {
+          setDislike(dislike + 1 )
+        }
+
+        const modify = () => {
+          if(book1) {
+            setBook1(book2)
+          } else {
+            setBook2(book1)
+          }
+          
+        }
+
+        return (
+          <>
+            <div className="App">
+              <div className="list">
+                <h3>
+                  {/* 수정버튼 클릭 시 book1 -> book2로 바꾸기 */}
+                  {book1}
+                  <span onClick={add}>👍</span>
+                  {like}
+                  <span onClick={minus}>👎</span>
+                  {dislike}
+                </h3>
+                <button onClick={modify}>수정하기</button>
+              </div>
+
+            </div>
+          </>
+        );
+      }
+      ReactDOM.createRoot(root).render(<App />);
+    </script>
+
+
+  </body>
+</html>

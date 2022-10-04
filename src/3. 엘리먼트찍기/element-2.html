@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>element찍어내기</title>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const Print = ({ title, description }) => (
+        <>
+          <h1>{title}</h1>
+          <h3>{description}</h3>
+        </>
+      );
+      const element = (
+        <>
+          <Print title="Java" description="비즈니스로직구현" />
+          <Print title="React" description="UI템플릿" />
+          <Print title="Oracle" description="리액트에 데이터셋제공" />
+        </>
+      );
+      ReactDOM.createRoot(rootElement).render(element);
+    </script>
+
+  </body>
+</html>

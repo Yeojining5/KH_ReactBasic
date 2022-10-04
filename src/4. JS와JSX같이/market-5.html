@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>market</title>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root"></div>
+
+    <style>
+      span {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      button {
+        margin : 10px;
+      }
+
+      .list {
+        border-bottom: 1px solid grey;
+      }
+
+      .modal {
+        margin: 10px;
+        padding: 10px;
+        background: #eee;
+      }
+    </style>
+    
+    <script type="text/babel">
+      const root = document.getElementById("root");
+      const App = () => {
+
+        let [like, setLike] = React.useState([0,0,0]);
+        let [dislike, setDislike] = React.useState([0,0,0]);
+        let [modal, setModal] = React.useState(false);
+
+        const [books, setBooks] = React.useState([
+          "자바의 정석",
+          "리액트의 정석",
+          "오라클의 정석"
+        ]);
+
+        const [publishs, setPublishs] = React.useState([
+          "5월 11일 출판",
+          "6월 12일 출판",
+          "7월 13일 출판"
+        ]);
+        
+        const add = (i) => {
+          setLike(like + 1)
+        };
+
+        const minus = () => {
+          setDislike(dislike + 1 )
+        }
+        // 수정하기 - 배열.. 얕은 복사
+        // 리액트의 정석 -> 스프링의 정석
+        // function bookUpdate() {
+        //   let book_copy = [...books];
+        //   book_copy[1] = "스프링의 정석";
+        //   setBooks(book_copy);
+        // }
+        const bookUpdate = () => {
+          let book_copy = [...books];
+          book_copy[1] = "스프링의 정석";
+          setBooks(book_copy);
+        }
+
+        // 정렬하기
+        function bookSort() {
+          let book_copy = [...books];
+          book_copy.sort();
+          setBooks(book_copy);
+        }
+
+
+        const Modal = () => {
+          return (
+            <div className="modal">
+              <h3>제목</h3>
+              <h4>출판일</h4>
+              <p>도시소개</p>
+            </div>
+          );
+        }
+
+        const openModal = () => {
+          console.log("모달클릭");
+          setModal(!modal)
+        }
+
+        return (
+          <>
+            <div className="App">
+
+              {
+                books.map((book, i) => (
+                <div className="list">
+                  <h3 onClick={openModal}>
+                    {book}
+                    <span onClick={(e) => {
+                      e.stopPropagation();
+                      let copy = [...like];
+                      copy[i] += 1;
+                      setLike(copy);
+                    }}>👍</span>
+                    { like[i] }
+                    <span onClick={(e) => {
+                      e.stopPropagation();
+                      let copy = [...dislike];
+                      copy[i] += 1;
+                      setDislike(copy);
+                    }}>👎</span>
+                    { dislike[i] }
+                  </h3>
+                  <p>{publishs[i]}</p>
+                </div>
+                ))
+              }
+            
+            <div>
+              <button onClick={bookUpdate}>제목수정</button>
+              <button onClick={bookSort}>제목정렬</button>
+            </div>
+
+            {/*********************** Modal **************************/}
+            {
+              modal == true ? <Modal /> : null
+            }
+            
+            </div>
+          </>
+        );
+      }
+      ReactDOM.createRoot(root).render(<App />);
+    </script>
+
+
+  </body>
+</html>

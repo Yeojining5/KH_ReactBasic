@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>멀티Element생성하기</title>
+    <style>
+      .box {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+      ////// 자주 쓰이는 패턴!!! ///////////
+      const rootElement = document.getElementById("root");
+      const element = (
+        <div id="d_subject">
+          <h1>Java</h1>
+          <h1>React</h1>
+          <h1>Spring</h1>
+        </div>
+      );
+
+      const App = () => {
+        return (
+          <>
+            <h1>Java</h1>
+            <h1>React</h1>
+            <h1>Spring</h1>
+          </>
+        );
+      };
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+
+  </body>
+</html>

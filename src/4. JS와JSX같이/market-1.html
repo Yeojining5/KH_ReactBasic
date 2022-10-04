@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>market</title>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root"></div>
+
+    <style>
+      span {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    </style>
+    
+    <script type="text/babel">
+      const root = document.getElementById("root");
+      const App = () => {
+
+        const [items, setItems] = React.useState([
+          { id : 1, title: "쇼코의 미소", publish: "문학동네", count: "0" },
+          { id : 2, title: "내게 무해한 사람", publish: "문학동네", count: "0" },
+          { id : 3, title: "밝은 밤", publish: "문학동네", count: "0" },
+        ])
+
+    
+        const add = (e) => {
+          좋아요설정(좋아요 + 1)
+        };
+
+        const minus = (e) => {
+          좋아요설정(좋아요 - 1 )
+        }
+
+        return (
+          <>
+            <div className="App">
+              <div className="list">
+                {/* map을 사용하여 리스트 출력하기 */}
+                {
+                  items && 
+                    Object.keys(items).map((key) => (
+                      <li key={key}>
+                        책제목 : {items[key].title}
+                        <br />
+                        출판사 : {items[key].publish}
+                        <br />
+                        추천수 : {items[key].count}
+                      </li>
+                    ))
+                }
+              </div>
+            </div>
+          </>
+        );
+      }
+      ReactDOM.createRoot(root).render(<App />);
+    </script>
+
+
+  </body>
+</html>
