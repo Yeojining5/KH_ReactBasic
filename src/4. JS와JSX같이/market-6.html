@@ -13,8 +13,6 @@
     
     <div id="root"></div>
 
-    <!-- ########### 내가 한 버전 ########## -->
-
     <style>
       span {
         margin-left: 10px;
@@ -43,20 +41,23 @@
         let [like, setLike] = React.useState([0,0,0]);
         let [dislike, setDislike] = React.useState([0,0,0]);
         let [modal, setModal] = React.useState(false);
+        let [userInput, setUserinput] = React.useState("");
+        let [index, setIndex] = React.useState(""); /* 모달창 */
+        let [title, setTitle] = React.useState(0); /* 모달창 */
 
-        const [books, setBooks] = React.useState([
+        let [books, setBooks] = React.useState([
           "자바의 정석",
           "리액트의 정석",
           "오라클의 정석"
         ]);
 
-        const [publishs, setPublishs] = React.useState([
+        let [publishs, setPublishs] = React.useState([
           "5월 11일 출판",
           "6월 12일 출판",
           "7월 13일 출판"
         ]);
         
-        const add = (i) => {
+        const add = () => {
           setLike(like + 1)
         };
 
@@ -84,59 +85,115 @@
         }
 
 
-        const Modal = () => {
+        const Modal = (props) => {
+          
+          console.log(props.title);
+          console.log(props.books);
+
           return (
+
             <div className="modal">
-              <h3>제목</h3>
-              <h4>출판일</h4>
-              <p>도시소개</p>
+              <h3>제목 : {props.books[props.title]} </h3>
+              <h4>출판일 : {props.publishs[props.title]} </h4>
+              <p>도서소개</p>
             </div>
           );
+
+          
         }
 
-        const openModal = () => {
-          console.log("모달클릭");
+        const openModal = (e) => {
+          console.log(e.target);
           setModal(!modal)
         }
 
         return (
           <>
             <div className="App">
-
+              {/****************************************************** 
+                브라우저는 같은 이름으로 자동으로 배열 전환 처리됨.. 
+                도서목록 시작
+              */}
               {
                 books.map((book, i) => (
-                <div className="list">
-                  <h3 onClick={openModal}>
+                <div className="list" key={i}>
+                  <h3 onClick={() => {
+                    setModal(!modal);
+                    setTitle(i);
+                  }}>
                     {book}
                     <span onClick={(e) => {
                       e.stopPropagation();
-                      let copy = [...like];
-                      copy[i] += 1;
-                      setLike(copy);
-                    }}>👍</span>
+                      let copy_like = [...like];
+                      copy_like[i] = copy_like[i]+1;
+                      setLike(copy_like);
+                    }}>
+                      👍
+                    </span>
                     { like[i] }
                     <span onClick={(e) => {
                       e.stopPropagation();
-                      let copy = [...dislike];
-                      copy[i] += 1;
-                      setDislike(copy);
-                    }}>👎</span>
+                      let copy_like = [...dislike];
+                      copy_like[i] = copy_like[i]+1;
+                      setDislike(copy_like);
+                    }}>
+                      👎
+                    </span>
                     { dislike[i] }
                   </h3>
                   <p>{publishs[i]}</p>
+
+                  <button onClick={() => {
+                    let copy = [...books];
+                    copy[i] = "스프링의 정석";
+                    setBooks(copy);
+                  }}>
+                    수정
+                  </button>
+
+                  <button onClick={(e) => {
+                    let copy = [...books];
+                    copy.splice(i, 1);
+                    setBooks(copy);
+                  }}>
+                    삭제
+                  </button>
+
                 </div>
                 ))
               }
+             {/* ************************ 도서목록 끝 ************************* */}
             
             <div>
               <button onClick={bookUpdate}>제목수정</button>
               <button onClick={bookSort}>제목정렬</button>
             </div>
 
+            <div>
+              <input onChange={(e) => {
+                //console.log(e.target.value)
+                setUserinput(e.target.value)
+              }} />
+              <button onClick={(e) => {
+                let copy = [...books];
+                let copy_like = [...like];
+                let copy_dlike = [...dislike];
+                copy.unshift(userInput);
+                copy_like.unshift(0);
+                copy_dlike.unshift(0);
+                setBooks(copy);
+                setLike(copy_like);
+                setDislike(copy_dlike);
+              }}>
+                등록
+              </button>  
+            </div>
+
             {/*********************** Modal **************************/}
             {
-              modal == true ? <Modal /> : null
+              modal === true ? <Modal title={title} books={books} publishs={publishs}  /> : null
             }
+            {/********************************************************/}
             
             </div>
           </>

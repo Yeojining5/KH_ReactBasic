@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const App = () => {
+        console.log("바뀔때마다 render를 해요");
+        // useState에 함수로 값을 넘길 수도 있다
+        // 이렇게 하면 initialize하는 것을 늦출 수 있다
+        const [keyword, setKeyword] = React.useState(() => {
+          console.log("initialize");
+          return window.localStorage.getItem("keyword");
+        });
+        const [result, setResult] = React.useState("");
+        const [typing, setTyping] = React.useState(false);
+        //keyword가 바뀔 때마다 저장하는 방법으로 처리하고 싶은데
+        //이때 useEffect를 사용한다
+        React.useEffect(() => {
+          console.log("effect");
+          window.localStorage.setItem("keyword", keyword);
+          window.localStorage.setItem("result", result);
+        }, [keyword, result]);
+
+        const handleChange = (event) => {
+          window.localStorage.setItem("keyword", event.target.value);
+          setKeyword(event.target.value);
+          setTyping(true);
+        }
+
+        const handleClick = () => {
+          setTyping(false);
+          setResult(`We find results of ${keyword}`);
+        }
+
+        return (
+          <>
+            <input onChange={handleChange} value={keyword} />
+            {/* value부분 추가 - 새로고침해도 남아있음. */}
+            <button onClick={handleClick}>search</button>
+            <p>{typing ? `Looking for ${keyword}...` : result}</p>
+          </>
+        );
+      };
+      console.log("end print");
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+  </body>
+</html>

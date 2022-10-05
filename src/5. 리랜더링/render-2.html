@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>리랜더링 - JSX버전</title>
+  </head>
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@17/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+      // div는 리랜더링 없고 button 만 리랜더링 됨 -개발자도구에서 요소로 확인
+      // button만 깜빡임
+      const rootElement = document.getElementById("root");
+      function random() {
+        //0부터 9까지 랜덤 숫자 채번하기 실수형 나오면 버림 처리
+        const number = Math.floor(Math.random() * (10 - 1) + 1);
+        const element = <button>{number}</button>;
+        //ReactDOM.createRoot(rootElement).render(element);
+        ReactDOM.render(element, rootElement);
+      }
+      setInterval(random, 1000);
+    </script>
+  </body>
+</html>

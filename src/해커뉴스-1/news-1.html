@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root"></div>
+
+    <!-- Postman에서 fetch로 해커뉴스 가져옴! -->
+
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const App = () => {
+        const [newsList, setNewsList] = React.useState([]);
+        const requestOptions = {
+          method: 'GET',
+          redirect: 'follow'
+        };
+
+        React.useEffect(()=> {
+          fetch("http://api.hnpwa.com/v0/news/1.json", requestOptions)
+          .then(response => response.json())
+          .then(result => {console.log(result); setNewsList(result)})
+          .catch(error => console.log('error', error));
+        }, []);
+        
+        return (
+          <>
+            <h1>해커뉴스 실습</h1>
+            {newsList.map((news)=> console.log(news.id))}
+          </>
+        );
+      };
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+  </body>
+</html>

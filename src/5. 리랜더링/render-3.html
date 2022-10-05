@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>리랜더링 - JSX버전</title>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root"></div>
+
+    <script type="text/babel">
+      // DOM앨리먼트의 타입이 같은 경우
+      // 두 앨리먼트의 속성을 비교하여 동일한 내역은 유지하고 변경된 속성들만 갱신함
+      const rootElement = document.getElementById("root");
+      function random() {
+        //0부터 9까지 랜덤 숫자 채번하기 실수형 나오면 버림 처리
+        const number = Math.floor(Math.random() * (10 - 1) + 1);
+        const element = (
+          <>
+            {/* 버튼의 children은 버튼의 라벨을 출력해줌 */}
+            <button children={number} />
+            <div>
+              <p>{number}</p>
+            </div>
+          </>
+        );
+        ReactDOM.render(element, rootElement);
+      }
+      setInterval(random, 1000);
+    </script>
+  </body>
+</html>
+

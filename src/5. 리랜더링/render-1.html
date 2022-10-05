@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS로 리랜더링 실험</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // div와 button이 동시에 리랜더링이 일어남
+      const rootElement = document.getElementById("root");
+      function random() {
+        //0부터 9까지 랜덤 숫자 채번하기 실수형 나오면 버림 처리
+        const number = Math.floor(Math.random() * (10 - 1) + 1);
+        const element = `
+        <button>${number}</button>
+      `;
+        rootElement.innerHTML = element;
+      }
+      setInterval(random, 1000);
+    </script>
+  </body>
+</html>
