@@ -30,7 +30,7 @@
           console.log("effect");
           window.localStorage.setItem("keyword", keyword);
           window.localStorage.setItem("result", result);
-        }, [keyword, result]);
+        }, [keyword]);
 
         const handleChange = (event) => {
           window.localStorage.setItem("keyword", event.target.value);

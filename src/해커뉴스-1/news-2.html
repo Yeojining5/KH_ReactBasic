@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>해커뉴스 목록</title>
+    <style>
+      .newsli {
+        list-style: none;
+        margin: 24px;
+        cursor: pointer;
+      }
+      .cardRow {
+        background-color: white;
+        border: 1px solid lightgray;
+        border-radius: 6px;
+      }
+      .cardContent {
+        display: flex;
+        justify-content: space-between;
+      }
+      .title{
+        font-size: 20px;
+      }
+      .count {
+        background-color: green;
+        width: 40px;
+        height: 30px;
+        text-align: center;
+        border-radius: 10px;
+        color: aliceblue;
+      }
+      .etc {
+        display:flex;
+        flex-direction: row;
+        height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root"></div>
+
+    <!-- Postman에서 fetch로 해커뉴스 가져옴! -->
+
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const App = () => {
+        const [newsList, setNewsList] = React.useState([]);
+        const requestOptions = {
+          method: 'GET',
+          redirect: 'follow'
+        };
+
+        React.useEffect(()=> {
+          fetch("http://api.hnpwa.com/v0/news/1.json", requestOptions)
+          .then(response => response.json())
+          .then(result => {console.log(result); setNewsList(result)})
+          .catch(error => console.log('error', error));
+        }, []);
+        
+        return (
+          <>
+            <h1>해커뉴스 실습</h1>
+            <ul>
+              {newsList.map((news)=> (
+                <li className="newsli" key={news.id}>
+                  <div className="cardRow">
+                    <div className="cardContent">
+                      <div className="title">{news.title}</div>
+                      <div className="count">{news.comments_count}</div>
+                    </div>
+                    <div className="etc">
+                      <div>{news.user}</div>
+                      <div>{news.points}</div>
+                      <div>{news.time_ago}</div>
+                    </div>
+                  </div> {/************************** end of cardRow ************************8*/}
+                </li> 
+              ))}
+            </ul>
+          </>
+        );
+      };
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+  </body>
+</html>
