@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      const App = () => {
+        console.log("App render start")
+        // 눌렸다 or 안눌렸다를 구분
+        // useState는 이전 값을 기억한다 - 그래서 hook-2.html확인하라
+        // 더 쉽게 할 수 있다.
+        const [show, setShow] = React.useState(false); // 함수 선언 및 구성가능함 - 리턴값 가능
+        // Search버튼을 누르면 다시 input이 사라지게 하자
+        // 화면에 대한 리렌더링이 발생된다.
+        // 리렌더링 될 때마다 처리하게 처리하게 하는 코드
+
+        function handleClick() { // 토글 버튼처럼 교차해서 처리되는
+          if (show) {
+            setShow(false);
+          } else {
+            setShow(true);
+          }
+        }
+        return (
+          <>
+            <button onClick={handleClick}>Search</button>
+            {show ? (
+              <>
+                <input />
+                <p></p>
+              </>
+            ) : null}
+          </>
+        );
+      };
+      console.log('App render end'); // 여기 먼저 출력됨 - 아직 App컴포넌트가 호출되지 않았다
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+  </body>
+</html>

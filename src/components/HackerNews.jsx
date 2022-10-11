@@ -6,7 +6,7 @@ import HackerNewsRow from "./HackerNewsRow";
 
 
 
-const HackerNews = ({ authLogic }) => {
+const HackerNews = ({ authLogic, pictureUpload }) => {
 
   const navigate = useNavigate()
 
@@ -52,7 +52,7 @@ const HackerNews = ({ authLogic }) => {
       <HackerHeader userId={userId} onLogout={onLogout} />
       <div>
         {newsList.map((news) => (
-          <HackerNewsRow key={news.id} news={news} />
+          <HackerNewsRow key={news.id} news={news} pictureUpload={pictureUpload} />
         ))}
       </div>
       <HackerFooter />

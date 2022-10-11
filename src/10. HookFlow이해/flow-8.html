@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const Child = () => {
+        console.log("   Child render start");
+        const [text, setText] = React.useState(() => {
+          console.log("   Child useState");
+          return "";
+        });
+        React.useEffect(() => {
+          console.log("   Child useEffect, no deps");
+          return () => {
+            console.log("   Child useEffect [Cleanup], no deps");
+          };
+        });
+        React.useEffect(() => {
+          console.log("   Child useEffect, empty deps");
+          return () => {
+            console.log("   Child useEffect [Cleanup], empty deps");
+          };
+        }, []);
+        React.useEffect(() => {
+          console.log("   Child useEffect, [text]");
+          return () => {
+            console.log("   Child useEffect [Cleanup], [text]");
+          };
+        }, [text]);
+        function handleChange(event) {
+          setText(event.target.value);
+        }
+        const element = (
+          <>
+            <input onChange={handleChange} />
+            <p>{text}</p>
+          </>
+        );
+        console.log("   Child render end");
+        return element;
+      };
+
+      const App = () => {
+        console.log("App render start");
+        const [show, setShow] = React.useState(() => {
+          console.log("App useState");
+          return false;
+        });
+        React.useEffect(() => {
+          console.log("App useEffect, no deps");
+          return () => {
+            console.log("App useEffect [Cleanup], no deps");
+          };
+        });
+        React.useEffect(() => {
+          console.log("App useEffect, empty deps");
+          return () => {
+            console.log("App useEffect [Cleanup], empty deps");
+          };
+        }, []);
+        React.useEffect(() => {
+          console.log("App useEffect, [show]");
+          return () => {
+            console.log("App useEffect [Cleanup], [show]");
+          };
+        }, [show]);
+        function handleClick() {
+          setShow((prev) => !prev);
+        }
+        console.log("App render end");
+        return (
+          <>
+            <button onClick={handleClick}>Search</button>
+            {show ? <Child /> : null}
+          </>
+        );
+      };
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+  </body>
+</html>
+<!-- 
+App render start
+Inline Babel script:42 App useState
+Inline Babel script:66 App render end
+Inline Babel script:46 App useEffect, no deps
+Inline Babel script:52 App useEffect, empty deps
+Inline Babel script:58 App useEffect, [show]
+
+Search버튼을 클릭하면 아래가 출력됨
+App render start
+Inline Babel script:66 App render end
+Inline Babel script:4    Child render start
+Inline Babel script:6    Child useState
+Inline Babel script:36    Child render end
+Inline Babel script:48 App useEffect [Cleanup], no deps
+Inline Babel script:60 App useEffect [Cleanup], [show]
+Inline Babel script:10    Child useEffect, no deps
+Inline Babel script:16    Child useEffect, empty deps
+Inline Babel script:22    Child useEffect, [text]
+Inline Babel script:46 App useEffect, no deps
+Inline Babel script:58 App useEffect, [show]
+
+input에 문자를 입력하면
+   Child render start
+Inline Babel script:36    Child render end
+Inline Babel script:12    Child useEffect [Cleanup], no deps
+Inline Babel script:24    Child useEffect [Cleanup], [text]
+Inline Babel script:10    Child useEffect, no deps
+Inline Babel script:22    Child useEffect, [text]
+
+input에 글자를 입력할 때 마다
+   Child render start
+Inline Babel script:36    Child render end
+Inline Babel script:12    Child useEffect [Cleanup], no deps
+Inline Babel script:24    Child useEffect [Cleanup], [text]
+Inline Babel script:10    Child useEffect, no deps
+Inline Babel script:22    Child useEffect, [text]
+가 반복해서 출력된다
+ -->

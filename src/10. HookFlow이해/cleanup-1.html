@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+    const root = document.getElementById("root");
+
+      const App = () => {
+        console.log("App render Start");
+        const [message, setMessage] = React.useState(true)
+        cont [coutn, setCount] = React.useState(0)
+
+        React.useEffect(() => {
+          console.log('mount나 update시 여기코드 실행됨');
+          const timer = setTimeout(()=> {
+            // 5초 후에 주문 메시지 사라지도록...
+            setMessage(false);
+          }, 5000); 
+          console.log('cleanup function 후에...');
+          return () => {
+            console.log('cleanup function 전에 ...');
+            clearTimeout(timer)
+          }
+        }, [])
+
+        return (
+            <>
+              <h2>헤더 영역</h2>
+
+              {
+                message == true ? (
+                <>
+                  <div style={{ backgroundColor: "yellow" }}>5초 이내 주문하면 추가 5% 할인행사</div>
+                  <button>주문하기</button>
+                </>
+                ) : null
+              }
+              {count}
+              <button onClick={() => {
+                setCount(count + 1)
+              }}>주문하기</button>
+              
+              <h2>푸터 영역</h2>
+            </>
+          );
+      } 
+
+      console.log("App render End");
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+    
+  </body>
+</html>

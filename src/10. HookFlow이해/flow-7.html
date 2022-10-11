@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      const Child = () => {
+        console.log("   Child render start");
+
+        const [text, setText] = React.useState(() => {
+          console.log("   Child useState");
+          return "";
+        });
+
+        React.useEffect(() => {
+          console.log("   Child useEffect, no deps");
+        });
+
+        React.useEffect(() => {
+          console.log("   Child useEffect, empty deps");
+        }, []);
+
+        // input에 찍을 때마다 호출됨 (자스에서는 onKeyup, onKeyPress)
+        React.useEffect(() => {
+          console.log("   Child useEffect, [text]");
+        }, [text]);
+        
+        function handleChange(event) {
+          // 텍스트 노드만 깜박임 (리액트의 장점)
+          setText(event.target.value);
+        }
+        const element = (
+          <>
+            <input onChange={handleChange} />
+            <p>{text}</p>
+          </>
+        );
+        console.log("   Child render end");
+        return element;
+      };
+      const App = () => {
+        console.log("App render start");
+        const [show, setShow] = React.useState(() => {
+          console.log("App useState");
+          return false;
+        });
+        React.useEffect(() => {
+          console.log("App useEffect, no deps");
+        });
+        React.useEffect(() => {
+          console.log("App useEffect, empty deps");
+        }, []);
+        React.useEffect(() => {
+          console.log("App useEffect, [show]");
+        }, [show]);
+        function handleClick() {
+          setShow((prev) => !prev);
+        }
+        console.log("App render end");
+        return (
+          <>
+            <button onClick={handleClick}>Search</button>
+            {show ? <Child /> : null}
+          </>
+        );
+      };
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+  </body>
+</html>
+<!-- 
+  관전 포인트
+  최초 실행시 Child에 있는 useEffect는 실행되지 않는다
+  그러나 
+  Search버튼을 클릭하면 Child쪽의 useEffect들이 먼저 출력되고 
+  App쪽의 useEffect가 출력된다 
+ -->

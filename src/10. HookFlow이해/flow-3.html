@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+      const App = () => {
+        console.log("App render start"); //2번으로 출력
+        const [show, setShow] = React.useState(() => {
+          console.log("App useState"); //3번으로 출력
+          return false;
+        });
+        React.useEffect(() => {
+          console.log("App useEffect, no deps");
+        }); // 4번출력. 없으면 모든 것에 반응
+        React.useEffect(() => {
+          console.log("App useEffect, empty deps");
+        }, []); //5번 출력. 처음 한번만 반응
+        React.useEffect(() => {
+          console.log("App useEffect, [show]");
+        }, [show]); //6번 출력. show가 변할때마다 반응
+        function handleClick() {
+          setShow((prev) => !prev);
+        }
+        return (
+          <>
+            <button onClick={handleClick}>Search</button>
+            {show ? (
+              <>
+                <input />
+                <p></p>
+              </>
+            ) : null}
+          </>
+        );
+      };
+      console.log("App render end"); //1번으로 출력
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+  </body>
+</html>
