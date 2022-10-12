@@ -83,7 +83,7 @@ const HackerNewsRow = (props) => {
 
   return (
     <>
-      {file.fileName+", "+file.fileURL}
+      {/* {file.fileName+", "+file.fileURL} */}
       <NewsLi key={news.id}>
         <CardRow>
           <CardContent>
@@ -104,10 +104,13 @@ const HackerNewsRow = (props) => {
             <div style={ {margin : '5px', padding : '5px'} }>
               updated {news.time_ago}
             </div>
+            <div className="ms-auto mt-2">
+              <Button variant="outline-secondary" onClick={handleShow}>Files</Button>
+            </div>
           </DivEtc>
         </CardRow>
 
-      <Button variant="primary" onClick={handleShow}>모달</Button>
+      
 
       </NewsLi>
 
@@ -146,9 +149,8 @@ const HackerNewsRow = (props) => {
         </Button>
       </Modal.Footer>
     </Modal>
-
-    
     {/************************ 사진업로드 테스트 모달 ************************/}
+
     </>
   );
 };

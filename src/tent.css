@@ -1,0 +1,25 @@
+.li-tent {
+  list-style: none;
+  font-size: 2.5rem;
+  padding: 0.5em;
+}
+
+.span-count {
+  display: inline-block;
+  text-align: center;
+  font-size: 2rem;
+  background-color: aqua;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  margin-left: 0.2em;
+  margin-right: 0.5em;
+  border-radius: 50%;
+}
+
+.tent-button {
+  font-size: 2.5rem;
+  margin: 0 0.1em;
+  background-color: transparent;
+  border: none;
+}
