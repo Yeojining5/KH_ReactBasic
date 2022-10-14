@@ -135,7 +135,6 @@ const HackerNewsRow = (props) => {
           alt="미리보기"
         />
 
-
       </div>
 
       </Form>

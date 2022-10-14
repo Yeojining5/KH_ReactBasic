@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { jsonDeptList } from './service/dbLogic';
+import { jsonDeptList } from '../service/dbLogic';
 import Table from 'react-bootstrap/Table';
-import HackerHeader from './HackerHeader';
-import HackerFooter from './HackerFooter';
 import { Button, Form, Modal } from 'react-bootstrap';
+import HackerHeader from './../page/HackerHeader';
+import HackerFooter from './../page/HackerFooter';
+import DeptRow from './DeptRow';
 
 
 const DeptList = ({ authLogic, pictureUpload }) => {
@@ -16,6 +17,7 @@ const DeptList = ({ authLogic, pictureUpload }) => {
         console.log("onLogout 호출 성공");
         authLogic.logout();
     }
+
     // html 렌더링 된 후 호출됨
     useEffect(() => {
         console.log("useEffect 호출");
@@ -30,7 +32,8 @@ const DeptList = ({ authLogic, pictureUpload }) => {
         }
         oracleDB()
     }, [userId])
-const imgChange = async (event) => {
+
+    const imgChange = async (event) => {
     console.log("imgChange호출")
     console.log(event.target.files[0])
     const upload = await pictureUpload.upload(event.target.files[0])
@@ -38,6 +41,7 @@ const imgChange = async (event) => {
         fileName: upload.public_id + "." + upload.format,
         fileURL: upload.url,
     })
+
     const uploadIMG = document.getElementById("img") //input의 이미지 객체 얻어오기
     const holder = document.getElementById("uploadImg") //이미지를 집어넣을 곳의 부모태그
     const file = uploadIMG.files[0]
@@ -55,6 +59,7 @@ const imgChange = async (event) => {
     reader.readAsDataURL(file)
     return false
     }
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -64,6 +69,11 @@ const imgChange = async (event) => {
         document.querySelector('#f_dept').action = "http://localhost:9000/dept/deptInsert";
         document.querySelector('#f_dept').submit();
     }
+
+
+
+
+
     return (
         <>
             <HackerHeader userId={userId} onLogout={onLogout} />
@@ -87,12 +97,13 @@ const imgChange = async (event) => {
             </thead>
                 <tbody>
                     {deptList.map((dept, i) => (
-                        <tr key={i}>
-                        <td>{i}</td>
-                        <td>{dept.DEPTNO}</td>
-                        <td>{dept.DNAME}</td>
-                        <td>{dept.LOC}</td>
-                        </tr>
+                        // <tr key={i}>
+                        // <td>{i}</td>
+                        // <td>{dept.DEPTNO}</td>
+                        // <td>{dept.DNAME}</td>
+                        // <td>{dept.LOC}</td>
+                        // </tr>
+                        <DeptRow key={i} dept={dept} />
                     )
                     )}
             </tbody>
@@ -140,20 +151,20 @@ const imgChange = async (event) => {
                         <div id="uploadImg">
                             <img
                                 className="thumbNail"
-                                src="https://via.placeholder.com/150"
+                                src="http://via.placeholder.com/200X250"
                                 alt="미리보기"
                             />
                         </div>
                         </Form>
                     </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        닫기
-                    </Button>
-                    <Button variant="primary" onClick={deptInsert}>
-                        저장
-                    </Button>
-                </Modal.Footer>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            닫기
+                        </Button>
+                        <Button variant="primary" onClick={deptInsert}>
+                            저장
+                        </Button>
+                    </Modal.Footer>
             </Modal>
             {/* ========[[[부서 등록 모달 시작]]]======= */}
         <HackerFooter />

@@ -6,6 +6,7 @@ const LoginPage = ({authLogic}) => {
   const navigate = useNavigate();
 
   const moveHacker = (userId) => {
+    window.localStorage.setItem("userId", userId)
     navigate({pathname:'/hackernews/'+userId})
   }
   const handleLogin = (e) => {

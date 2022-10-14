@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import CartTents from './CartTents';
-import "../../tent.css";
+import "../../css/tent.css";
 import { Button } from 'react-bootstrap';
 import axios from "axios";
-import CartAddForm from './CartAddForm';
-import products from "../../product";
 
 
 const CartApp = () => {

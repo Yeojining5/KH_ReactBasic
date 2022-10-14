@@ -1,6 +1,6 @@
 import React from "react";
-import CartTent from './CartTent';
 import CartAddForm from './CartAddForm';
+import CartTent from './CartTent';
 
 // CartTent.jsx 파일에서 items 받아옴
 const CartTents = (props) => {

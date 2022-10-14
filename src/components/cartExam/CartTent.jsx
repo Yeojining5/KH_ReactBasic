@@ -13,6 +13,7 @@ const CartTent = (props) => {
   const cartDelete = () => {
     props.cartDelete(props.tent)
   }
+
   
   console.log(props.tent)
   return (

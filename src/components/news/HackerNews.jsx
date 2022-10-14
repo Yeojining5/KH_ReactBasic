@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import HackerFooter from "./HackerFooter";
-import HackerHeader from "./HackerHeader";
+import HackerFooter from "../page/HackerFooter";
+import HackerHeader from "../page/HackerHeader";
 import HackerNewsRow from "./HackerNewsRow";
 
 
