@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      /* 상태가 바뀌면 컴포넌트도 재렌더링이 일어남 */
+
+      const functionA = (input) => {
+        console.log('functionA호출');
+        let hap = 0;
+        for(let i=0; i<11; i+=input) {
+          hap = hap+i
+        }
+        return hap;
+      }
+      
+      const functionB = (input) => {
+        console.log('functionB호출');
+        return input;
+      }
+
+/* 
+  상태값이 바뀔 때마다 화면 컴포넌트가 매번 재렌더링이 일어남
+  즉 App함수 안의 모든 것이 초기화가 일어난다 
+*/
+
+      const App = () => {
+        //console.log("App render start"); // useState가 변할 때마다 매번 호출됨(=재렌더링이 일어난다는 뜻)
+
+        const [first, setFirst] = React.useState(2)
+        const [second, setSecond] = React.useState(1)
+        // const num1 = functionA(first) 
+        const num1 = React.useMemo(()=> {
+          return functionA(first)
+        }, [first])
+        const num2 = functionB(second)
+
+
+        const [show, setShow] = React.useState(false)
+        React.useEffect(()=>{
+          console.log("useEffect 호출");
+        }, [])
+
+        return (
+          <>
+            <input type="number" value={first} onChange={(e) => setFirst(parseInt(e.target.value))} />
+            
+            <span>{num1}</span>
+            
+            <hr />
+            
+            <input type="number" value={second} onChange={(e) => setSecond(parseInt(e.target.value))} />
+            
+            <span>{num2}</span>
+            
+            <button onClick={() => {
+              console.log("click");
+              setShow(!show)
+            }}>Search</button>
+            
+          </>
+        );
+      };
+      //console.log('App render end'); // 여기 먼저 출력됨 - 아직 App컴포넌트가 호출되지 않았다
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+  </body>
+</html>

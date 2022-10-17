@@ -7,12 +7,16 @@ import HackerFooter from './../page/HackerFooter';
 import DeptRow from './DeptRow';
 
 
+// state가 바뀌면 DeptList는 재렌더링 된다 (=주소번지가 바뀐다, =useEffect의 갱신도 일어남)
+// useEffect와 상관없는 일이어도 갱신이 일어난다면 비효율적 => useMemo가 중요한 이유
 const DeptList = ({ authLogic, pictureUpload }) => {
     // const { authLogic } = props
     const userId = window.localStorage.getItem("userId");
     console.log("DeptList ===>"+userId);
+
     const [deptList, setDeptList] = useState([])
     const [file, setFile] = useState({ fileName:null, fileURL:null })
+
     const onLogout = () => {
         console.log("onLogout 호출 성공");
         authLogic.logout();
@@ -24,10 +28,10 @@ const DeptList = ({ authLogic, pictureUpload }) => {
         const oracleDB = async () => {
             console.log("oracleDB 호출");
             const result = await jsonDeptList({ DEPTNO:30 })
-            // console.log(result);
-            // console.log(result.data);
-            // console.log(result.data[1].LOC);
-            // console.log(result.data[2].DNAME);
+            console.log(result);
+            console.log(result.data);
+            console.log(result.data[1].LOC);
+            console.log(result.data[2].DNAME);
             setDeptList(result.data)
         }
         oracleDB()
@@ -70,7 +74,19 @@ const DeptList = ({ authLogic, pictureUpload }) => {
         document.querySelector('#f_dept').submit();
     }
 
-
+    const reactSearch = () => {
+        // deptno, dname, loc 컬럼명을 저장함
+        const gubun = document.querySelector("#gubun").value;
+        const keyword = document.querySelector("#keyword").value;
+        console.log(gubun+","+keyword);
+        const asyncDB = async() => {
+            const res = await jsonDeptList({ gubun : gubun, keyword: keyword  })
+            if(res.data){
+                console.log(res.data);
+            }
+        }
+        asyncDB()
+    }
 
 
 
@@ -86,6 +102,27 @@ const DeptList = ({ authLogic, pictureUpload }) => {
                     <hr />
                 </div>
             <h2>부서 목록</h2>
+
+            <div className="row">
+                <div className="col-3">
+                    <select id="gubun" className="form-select" aria-label="분류선택">
+                        <option defaultValue>분류선택</option>
+                        <option value="deptno">부서번호</option>
+                        <option value="dname">부서명</option>
+                        <option value="loc">지역</option>
+                    </select>
+                </div>
+
+                <div className="col-6">
+                    <input type="text" id="keyword" className="form-control" placeholder="검색어를 입력하세요" />
+                </div>
+                
+                <div className="col-3">
+                    <Button id="btn_search" variant="danger" onClick={reactSearch}>검색</Button>
+                </div>
+            </div>
+
+
             <Table striped bordered hover>
             <thead>
                 <tr>
@@ -118,6 +155,7 @@ const DeptList = ({ authLogic, pictureUpload }) => {
                     </Button>
                 </div>
             </div>
+
             {/* ========[[[부서 등록 모달 시작]]]======= */}
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>

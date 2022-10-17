@@ -7,3 +7,17 @@
 .page-header {
   padding: 20px 0px;
 }
+
+.dept-header {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 20px;
+}
+
+.dept-list {
+  margin: 20px 0px;
+}
+
+.dept-detail {
+  
+}

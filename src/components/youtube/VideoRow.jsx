@@ -4,7 +4,6 @@ import { VRLI, VRPTITLE, VRCHANNEL, VRCONTENTDIV, VRVIDEODIV } from './../styles
 
 const VideoRow = ({ video, videoSelect }) => {
 
-
   return (
     <>
       {/* li 태그 styled */}

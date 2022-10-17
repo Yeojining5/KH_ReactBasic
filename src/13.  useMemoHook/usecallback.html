@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      /* 상태가 바뀌면 컴포넌트도 재렌더링이 일어남 */
+
+      
+      // const functionA = (input) => {
+      //   console.log('functionA호출');
+      //   return input;
+      // }
+      
+      /* 
+      상태값이 바뀔 때마다 화면 컴포넌트가 매번 재렌더링이 일어남
+      즉 App함수 안의 모든 것이 초기화가 일어난다 
+      */
+    
+      const App = () => {
+        //console.log("App render start"); // useState가 변할 때마다 매번 호출됨(=재렌더링이 일어난다는 뜻)
+
+        const [first, setFirst] = React.useState(2)
+
+        const functionA = React.useCallback(() => {
+          console.log(first);
+        }, [first])
+
+        React.useEffect(() => {
+          console.log("functionA 주소번지가 변경됨")
+        }, [functionA])
+
+
+        return (
+          <>
+            <input type="number" value={first} onChange={(e) => setFirst(parseInt(e.target.value))} />
+            
+            <button onClick={functionA}>functionA호출</button>
+            
+          </>
+        );
+      };
+      //console.log('App render end'); // 여기 먼저 출력됨 - 아직 App컴포넌트가 호출되지 않았다
+      ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
+  </body>
+</html>
