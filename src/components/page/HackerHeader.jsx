@@ -27,6 +27,9 @@ const HackerHeader = ({userId, onLogout}) => {
               <Link to="/youtube" className="nav-link">
                 Youtube
               </Link>
+              <Link to="/notice" className="nav-link">
+                Notice
+              </Link>
             </Nav>
 
             {
