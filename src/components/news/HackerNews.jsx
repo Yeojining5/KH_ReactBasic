@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Mypagination from "../Mypagination";
 import HackerFooter from "../page/HackerFooter";
 import HackerHeader from "../page/HackerHeader";
 import HackerNewsRow from "./HackerNewsRow";
 
 
 
-const HackerNews = ({ authLogic, pictureUpload }) => {
+const HackerNews = ({ authLogic, pictureUpload, newsList, newsPerPage, totalNews, paginate }) => {
 
   const navigate = useNavigate()
 
@@ -14,7 +15,7 @@ const HackerNews = ({ authLogic, pictureUpload }) => {
   const { userId } = useParams()
   console.log("구글 인증 아이디 : " + userId);
 
-  const [newsList, setNewsList] = React.useState([]);
+  //const [newsList, setNewsList] = React.useState([]); // App.jsx 에서 받아오는걸로 수정
 
   const onLogout = () => {
     console.log("onLogout 호출 성공");
@@ -37,15 +38,16 @@ const HackerNews = ({ authLogic, pictureUpload }) => {
   // 없으면? 모든 변화에 반응해
   // [] 있는데 파라미터가 없으면 처음에 한 번만...
   // [keyword] 키워드가 변경될 때마다 재귀호출 일어남
-  useEffect(() => {
-    fetch("https://api.hnpwa.com/v0/news/1.json", requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        setNewsList(result);
-      })
-      .catch((error) => console.log("error", error));
-  }, []);
+  ////////////////////////////////////////이부분은 페이지네이션 추가하면서 App에서 받아오는걸로 수정함
+  // useEffect(() => {
+  //   fetch("https://api.hnpwa.com/v0/news/1.json", requestOptions)
+  //     .then((response) => response.json())
+  //     .then((result) => {
+  //       console.log(result);
+  //       setNewsList(result);
+  //     })
+  //     .catch((error) => console.log("error", error));
+  // }, []);
 
   return (
     <>
@@ -54,6 +56,10 @@ const HackerNews = ({ authLogic, pictureUpload }) => {
         {newsList.map((news) => (
           <HackerNewsRow key={news.id} news={news} pictureUpload={pictureUpload} />
         ))}
+
+        {/* ################[[페이지네이션]]############### */}
+        <Mypagination newsPerPage={newsPerPage} totalNews={totalNews} paginate={paginate} />
+
       </div>
       <HackerFooter />
     </>

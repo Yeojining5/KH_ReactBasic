@@ -18,6 +18,11 @@
   margin: 20px 0px;
 }
 
-.dept-detail {
-  
+.notice-detail {
+  display: flex;
+}
+
+.detail-link {
+  display: flex;
+  margin: 6px;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { initializeApp } from "firebase/app";
-//import { initializeApp } from "http://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+//import { initializeApp } from "firebase/app";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "firebase/database";
 import { Button, Form, InputGroup, Table, Modal } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,6 +8,7 @@ import HackerHeader from './../page/HackerHeader';
 import HackerFooter from './../page/HackerFooter';
 import NoticeRow from './NoticeRow';
 import "./notice.css"
+import { Navigate } from 'react-router-dom';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FS_APIKEY,
@@ -23,7 +24,7 @@ const firebaseApp = initializeApp(firebaseConfig);
 const database = getDatabase();
 
 
-const NoticeList = ({ authLogic, pictureUpload }) => {
+const NoticeList = (props) => {
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -40,14 +41,43 @@ const NoticeList = ({ authLogic, pictureUpload }) => {
 
   // n건의 로우를 받는 경우
   const [notices, setNotices] = useState({
-    "1": {n_no:3, n_title:"공휴일 공지", n_writer:"관리자", n_date:"2022-10-20"},
-    "2": {n_no:2, n_title:"배송지연 공지", n_writer:"관리자", n_date:"2022-10-19"},
-    "3": {n_no:1, n_title:"신제품 출시 안내", n_writer:"관리자", n_date:"2022-10-18"},
+    "1": {n_no:3, n_title:"공휴일 공지", n_writer:"관리자", n_date:"2022-10-20", n_content: "내용3"},
+    "2": {n_no:2, n_title:"배송지연 공지", n_writer:"관리자", n_date:"2022-10-19", n_content: "내용2"},
+    "3": {n_no:1, n_title:"신제품 출시 안내", n_writer:"관리자", n_date:"2022-10-18", n_content: "내용1"},
   })
 
 
   /// 공지사항 조건검색 이벤트
-  const noticeSearch = () => {}
+  const noticeSearch = () => {
+
+    const gubun = document.querySelector("#gubun").value;
+    const keyword = document.querySelector("#keyword").value;
+    console.log(gubun+","+keyword);
+
+    let result = [];
+    // {}, {}, {} 형태
+    if(gubun === "n_title") {
+      Object.keys(notices).map((key) =>
+        notices[key].n_title && notices[key].n_title === keyword 
+        ? result.push(notices[key]) 
+        : null 
+      )
+    }else if(gubun === "n_writer") {
+      Object.keys(notices).map((key) =>
+        notices[key].n_writer && notices[key].n_writer === keyword 
+        ? result.push(notices[key]) 
+        : null 
+      )
+    } else if(gubun === "n_content") {
+      Object.keys(notices).map((key) =>
+        notices[key].n_content && notices[key].n_content === keyword 
+        ? result.push(notices[key]) 
+        : null 
+      )
+    }
+    setNotices(result)
+
+  } /* end of noticeSearch */
 
 
   /// 공지사항 등록 버튼 이벤트
@@ -55,8 +85,7 @@ const NoticeList = ({ authLogic, pictureUpload }) => {
     // submit 사용시 페이지 새로고침 처리 방어코드 삽입 - 주입
     e.preventDefault(); // 이벤트 버블링 방어코드 삽입할 것
     set(ref(database, "notice/" + notice.n_no), notice)
-
-    console.log(notice);
+    handleClose();
   }
 
   /// 모달form의 제목, 작성자, 내용에 모두 onChange이벤트로 걸어줘야함
@@ -67,9 +96,16 @@ const NoticeList = ({ authLogic, pictureUpload }) => {
 
     setNotice({
       ...notice,
-      n_no: Date.now(),
+      n_date: Date.now(),
       [e.target.name]: e.target.value,
     })
+  }
+
+  const noticeList = () => {
+    console.log("noticeList");
+    //Navigate("/notice")
+    //window.location.reload()
+    setNotices({...notices})
   }
 
 
@@ -131,7 +167,7 @@ const NoticeList = ({ authLogic, pictureUpload }) => {
         <hr />
 
         <div className="noticelist-footer">
-            <Button variant="warning">
+            <Button variant="warning" onClick={noticeList}>
                 전체조회
             </Button>&nbsp;
             <Button variant="success" onClick={handleShow}>
@@ -174,7 +210,7 @@ const NoticeList = ({ authLogic, pictureUpload }) => {
                         </Button>
                     </Modal.Footer>
               </Modal>
-            {/* ========[[[공지사항 등록 모달 끝]]]======= */}
+{/* ========[[[공지사항 등록 모달 끝]]]======= */}
 
 
       <HackerFooter />
