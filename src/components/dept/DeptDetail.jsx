@@ -28,6 +28,7 @@ const DeptDetail = (props) => {
     const asyncDB = async() => {
       const res = await jsonDeptList({deptno:deptno})
       console.log(res); // axios - fetch함수와 차이점 - 코드양이 줄어듦 JSON.stringify, parse사용하지 않아도 JSON 받아냄
+      console.log(res.data);
       console.log(res.data[0]);
       //console.log(res.data[0].LOC) // NEW YORK
       setDeptVO(res.data[0])////////////////////////////// 데이터 초기화

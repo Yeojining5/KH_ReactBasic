@@ -11,6 +11,7 @@ import NoticeList from './components/notice/NoticeList';
 import NoticeDetail from './components/notice/NoticeDetail';
 import { useState, useEffect } from 'react';
 import axios from "axios"
+import DBBoardList from './components/board/DBBoardList';
 
 const App = ({ authLogic, pictureUpload }) => {
 
@@ -41,6 +42,11 @@ const App = ({ authLogic, pictureUpload }) => {
           path="/"
           exact={true}
           element={<LoginPage authLogic={authLogic} />}
+        />
+        <Route
+          path="/board"
+          exact={true}
+          element={<DBBoardList authLogic={authLogic} />}
         />
         <Route
           path="/notice"

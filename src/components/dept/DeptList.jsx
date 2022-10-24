@@ -4,6 +4,7 @@ import { Button, Form, Modal, Table } from 'react-bootstrap';
 import HackerHeader from '../page/HackerHeader';
 import HackerFooter from '../page/HackerFooter';
 import DeptRow from './DeptRow';
+import axios from "axios"
 
 
 // state가 바뀌면 DeptList는 재렌더링 된다 (=주소번지가 바뀐다, =useEffect의 갱신도 일어남)
@@ -68,14 +69,53 @@ const DeptList = ({ authLogic, pictureUpload }) => {
         return false
     }
 
-    const deptInsert = () => {
-        document.querySelector("#filename").value = file.fileName
-        //document.querySelector("#filename").value = "a.png"
-        document.querySelector("#fileurl").value = file.fileURL
-        //document.querySelector("#fileurl").value = "a.png"
-        document.querySelector("#f_dept").action =
-            "http://localhost:9000/dept/deptInsert"
-        document.querySelector("#f_dept").submit()
+    const [deptInput, setDeptInput] = useState({
+        filename: '',
+        fileurl: '',
+        depno: 0,
+        dname: '',
+        loc: '',
+    })
+
+    const onChange = (e) => {
+        if(e.currentTarget == null) return;
+        console.log("폼 내용 변경 발생 name : "+e.target.name);
+        console.log("폼 내용 변경 발생 value : "+e.target.value);
+    
+        setDeptInput({
+            ...deptInput,
+          [e.target.name]: e.target.value,
+        })
+      }
+
+    const deptInsert = (e) => {
+        // e.preventDefault()
+        // document.querySelector("#filename").value = file.fileName
+        // //document.querySelector("#filename").value = "a.png"
+        // document.querySelector("#fileurl").value = file.fileURL
+        // //document.querySelector("#fileurl").value = "a.png"
+        // document.querySelector("#f_dept").action =
+        //     "http://localhost:9000/dept/deptInsert"
+        // document.querySelector("#f_dept").submit()
+
+        e.preventDefault()
+        let list = {
+            // json 형태로 spring에 값을 넘김
+            filename: file.fileName,
+            fileurl: file.fileURL,
+            depno: e.target.deptno.value,
+            dname: e.target.dname.value,
+            loc: e.target.loc.value,
+        }
+        console.log("deptinput => "+ JSON.stringify(list));
+        axios
+        .post(process.env.REACT_APP_SPRING_IP +"dept/deptInsert", list)
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
     }
     
     const reactSearch = () => {
@@ -174,20 +214,23 @@ const DeptList = ({ authLogic, pictureUpload }) => {
 
                 <Modal.Body>
                     {/* ##########################[[Form 전송 insert]]########################### */}
-                    <Form id="f_dept" method='get'>
+                    <Form id="f_dept" onSubmit={deptInsert}>
                         <input id="filename" name="filename" type="hidden" />
                         <input id="fileurl" name="fileurl" type="hidden" />
                         <Form.Group className="mb-3" controlId="formBasicDeptno">
                             <Form.Label>부서 번호</Form.Label>
-                            <Form.Control type="text" name="deptno" placeholder="Enter 부서번호" />
+                            <input type='text' name='deptno' onChange={onChange} />
+                            {/* <Form.Control type="text" name="deptno" placeholder="Enter 부서번호" /> */}
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicDname">
                             <Form.Label>부서 이름</Form.Label>
-                            <Form.Control type="text" name="dname" placeholder="Enter 부서이름" />
+                            <input type='text' name='dname' onChange={onChange} />
+                            {/* <Form.Control type="text" name="dname" placeholder="Enter 부서이름" /> */}
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicLoc">
                             <Form.Label>지역</Form.Label>
-                            <Form.Control type="text" name="loc" placeholder="Enter 지역" />
+                            <input type='text' name='loc' onChange={onChange} />
+                            {/* <Form.Control type="text" name="loc" placeholder="Enter 지역" /> */}
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <input
@@ -205,18 +248,24 @@ const DeptList = ({ authLogic, pictureUpload }) => {
                             alt="미리보기"
                         />
                     </div>
+
+                    <Button variant="secondary" onClick={handleClose}>
+                        닫기
+                    </Button>
+                    <input type="submit" value="저장" />
+
                     </Form>
                     {/* ##########################[[Form 전송 insert]]########################### */}
                 </Modal.Body>
 
-                <Modal.Footer>
+                {/* <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         닫기
                     </Button>
                     <Button variant="primary" onClick={deptInsert}>
                         저장
                     </Button>
-                </Modal.Footer>
+                </Modal.Footer> */}
             </Modal>
             {/* ========[[[부서 등록 모달 끝]]]======= */}
         <HackerFooter />

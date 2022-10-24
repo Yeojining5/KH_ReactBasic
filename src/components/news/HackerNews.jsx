@@ -4,10 +4,24 @@ import Mypagination from "../Mypagination";
 import HackerFooter from "../page/HackerFooter";
 import HackerHeader from "../page/HackerHeader";
 import HackerNewsRow from "./HackerNewsRow";
+import MyToast from './../common/MyToast';
+import { useSelector, useDispatch } from 'react-redux';
+import { setToastMsg } from "../../store";
 
 
 
 const HackerNews = ({ authLogic, pictureUpload, newsList, newsPerPage, totalNews, paginate }) => {
+
+  const status = useSelector((store) => store.status)
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    if(userId !== null && userId.length > 0) {
+      dispatch(setToastMsg("당신은 회원 이군요"))
+    } else {
+      dispatch(setToastMsg("비회원 이군요"))
+    }
+  }, [])
 
   const navigate = useNavigate()
 
@@ -53,6 +67,7 @@ const HackerNews = ({ authLogic, pictureUpload, newsList, newsPerPage, totalNews
     <>
       <HackerHeader userId={userId} onLogout={onLogout} />
       <div>
+        { status && <MyToast /> }
         {newsList.map((news) => (
           <HackerNewsRow key={news.id} news={news} pictureUpload={pictureUpload} />
         ))}

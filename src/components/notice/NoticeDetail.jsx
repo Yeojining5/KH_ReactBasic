@@ -47,7 +47,7 @@ const NoticeDetail = (props) => {
       const data = snapshot.val();
       setNotice(data)
     })
-  }, [n_no])
+  }, [])
 
   // 수정하기
   const noticeUpdate = (e) => {

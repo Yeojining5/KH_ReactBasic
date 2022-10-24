@@ -1,12 +1,17 @@
 import React from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { logout2 } from './../service/authLogic';
+import { useSelector } from 'react-redux';
 
 
 // const HackerHeader = (props) => {
 //   const { userId, onLogout } = props;     -> 구조분해 할당 버전
 // userId, onLogout 이벤트 핸들러가 넘어옴
 const HackerHeader = ({userId, onLogout}) => {
+
+  const auth = useSelector((store) => store.auth)
+
   return (
     <>
       <Navbar bg="primary" variant="dark" expand="lg">
@@ -24,6 +29,9 @@ const HackerHeader = ({userId, onLogout}) => {
               <Link to="/dept" className="nav-link">
                 DeptList
               </Link>
+              <Link to="/board" className="nav-link">
+                BoardList
+              </Link>
               <Link to="/youtube" className="nav-link">
                 Youtube
               </Link>
@@ -34,7 +42,10 @@ const HackerHeader = ({userId, onLogout}) => {
 
             {
             onLogout &&
-            (<Button variant="outline-light" onClick={onLogout}>
+            (<Button variant="outline-light" onClick={() => {
+              logout2(auth)
+              window.location.reload()
+              }}>
               Logout
             </Button>)
             }
