@@ -5,6 +5,7 @@ import HackerHeader from '../page/HackerHeader';
 import HackerFooter from '../page/HackerFooter';
 import DeptRow from './DeptRow';
 import axios from "axios"
+import { Navigate } from 'react-router-dom';
 
 
 // state가 바뀌면 DeptList는 재렌더링 된다 (=주소번지가 바뀐다, =useEffect의 갱신도 일어남)
@@ -19,7 +20,7 @@ const DeptList = ({ authLogic, pictureUpload }) => {
     const handleShow = () => setShow(true)
 
     const userId = window.localStorage.getItem("userId")
-    console.log("DeptList===>" + userId)
+    //console.log("DeptList===>" + userId)
 
     const onLogout = () => {
     console.log("onLogout 호출 성공")
@@ -72,15 +73,15 @@ const DeptList = ({ authLogic, pictureUpload }) => {
     const [deptInput, setDeptInput] = useState({
         filename: '',
         fileurl: '',
-        depno: 0,
+        deptno: 0,
         dname: '',
         loc: '',
     })
 
     const onChange = (e) => {
         if(e.currentTarget == null) return;
-        console.log("폼 내용 변경 발생 name : "+e.target.name);
-        console.log("폼 내용 변경 발생 value : "+e.target.value);
+        // console.log("폼 내용 변경 발생 name : "+e.target.name);
+        // console.log("폼 내용 변경 발생 value : "+e.target.value);
     
         setDeptInput({
             ...deptInput,
@@ -101,17 +102,20 @@ const DeptList = ({ authLogic, pictureUpload }) => {
         e.preventDefault()
         let list = {
             // json 형태로 spring에 값을 넘김
-            filename: file.fileName,
-            fileurl: file.fileURL,
-            depno: e.target.deptno.value,
+            deptno: e.target.deptno.value,
             dname: e.target.dname.value,
             loc: e.target.loc.value,
+            fileurl: file.fileURL,
+            filename: file.fileName,
         }
         console.log("deptinput => "+ JSON.stringify(list));
         axios
         .post(process.env.REACT_APP_SPRING_IP +"dept/deptInsert", list)
         .then((response) => {
             console.log(response.data);
+            if(response==1)
+                handleClose();
+                window.location.replace("/dept")
         })
         .catch((error) => {
             console.log(error);
